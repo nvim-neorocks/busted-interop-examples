@@ -1,0 +1,5 @@
+describe("busted test example", function()
+	it("Test can access vim namespace", function()
+		assert.are.same(vim.trim("  a "), "ab")
+	end)
+end)

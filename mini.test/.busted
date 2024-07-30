@@ -1,0 +1,14 @@
+return {
+  _all = {
+    coverage = false,
+    lpath = "lua/?.lua;lua/?/init.lua",
+    lua = "~/.luarocks/bin/nlua",
+    -- ROOT = {"tests"}, -- if you would like all tests in the same directory
+  },
+  specs = {
+    verbose = true
+  },
+  tests = {
+    verbose = true
+  },
+}
