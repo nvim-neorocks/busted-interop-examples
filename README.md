@@ -59,6 +59,9 @@ If not, here are some resources to get you started:
 - [`nvim-nio`](https://github.com/nvim-neotest/nvim-nio)
   The [`nio.tests`](https://github.com/nvim-neotest/nvim-nio?tab=readme-ov-file#niotests)
   module provides async versions of busted's test functions.
+- [`yo-dawg.nvim`](https://github.com/HiPhish/yo-dawg.nvim)
+  A convenience library for controlling a Neovim process 
+  embedded inside another Neovim process, written with busted tests in mind.
 
 ## Examples for making other frameworks interoperable with busted
 
