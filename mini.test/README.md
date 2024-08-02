@@ -22,16 +22,10 @@ It assumes you want to do the following:
   busted, via a [`spec/mini_tests_spec.lua`](./spec/mini_tests_spec.lua) file.
 - Because we initialise mini.tests in the busted spec file,
   there is no need to do so in [`scripts/minimal_init.lua`](./scripts/minimal_init.lua).
-
-### Hacks
-
 - mini.test, by default, exits with exit code `0` if tests succeed,
   which results in busted test failures not being detectable by CI.
-  This behaviour can be disabled, but there appears to be no API to
-  determine if mini.test tests have succeeded or not.
-  We need to hack into the test reporter to do so.
-  By doing this, we can ensure that the test runner exits with a non-zero exit code
-  if either the mini.tests or the busted test suite has failed.
+  We need to hook into its reporter to make sure it only exits with a non-zero
+  exit code if tests fail.
 
 ### Screenshots
 

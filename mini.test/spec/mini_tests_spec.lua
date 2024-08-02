@@ -1,29 +1,26 @@
 describe("integration", function()
 	require("mini.test").setup()
-	local cases = MiniTest.collect()
 	-- This makes sure mini.test doesn't prevent busted tests from
 	-- exiting with a non-zero exit code if it succeeds
 	local opts = { quit_on_finish = false }
 	local reporter = MiniTest.gen_reporter.stdout(opts)
-	-- HACK: mini.tests doesn't have an API to determine if tests have failed
-	-- We can work around this by detecting failures in `reporter.update`
-	-- and then exiting with a non-zero exit code in `reporte.finish` if we detected one.
-	local has_fails
-	local orig_update = reporter.update
-	reporter.update = function(case_num)
-		local case = cases[case_num]
-		local fails = vim.tbl_get(case, "exec", "fails") or {}
-		if #fails > 0 then
-			has_fails = true
-		end
-		orig_update(case_num)
+	local all_cases
+	local orig_start = reporter.start
+	reporter.start = function(cases)
+		all_cases = cases
+    orig_start(cases)
 	end
 	local orig_finish = reporter.finish
 	reporter.finish = function(...)
+		local has_fails = vim.iter(all_cases):any(function(case)
+        local fails = vim.tbl_get(case, "exec", "fails") or {}
+        return #fails > 0
+    end)
 		if has_fails then
 			vim.cmd("silent! 1cquit")
 		end
 		orig_finish(...)
 	end
+	local cases = MiniTest.collect()
 	MiniTest.execute(cases, { reporter = reporter })
 end)
